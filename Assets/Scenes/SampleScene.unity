@@ -776,10 +776,13 @@ MonoBehaviour:
     m_Bits: 1
   isSprinting: 0
   isGrounded: 1
+  isJumping: 0
   walkingSpeed: 0
   runSpeed: 5
   sprintSpeed: 7
   rotationSpeed: 18
+  jumpHeight: 3
+  gravityIntensity: -15
 --- !u!114 &1843787140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,6 +803,7 @@ MonoBehaviour:
   verticalInput: 0
   horizontalInput: 0
   sprintInput: 0
+  jumpInput: 0
 --- !u!54 &1843787144
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -994,10 +998,13 @@ MonoBehaviour:
     m_Bits: 0
   isSprinting: 0
   isGrounded: 0
+  isJumping: 0
   walkingSpeed: 0
   runSpeed: 5
   sprintSpeed: 7
   rotationSpeed: 16
+  jumpHeight: 3
+  gravityIntensity: -15
 --- !u!114 &419544933110106193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1089,7 +1096,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6901226296487746743, guid: 5957bc19b4aac344692e918b7f479ddc, type: 3}
       propertyPath: m_ApplyRootMotion
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

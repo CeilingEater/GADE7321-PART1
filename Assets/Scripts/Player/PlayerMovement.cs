@@ -21,12 +21,17 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Flags")]
     public bool isSprinting;
     public bool isGrounded;
+    public bool isJumping;
 
     [Header("Movement Speeds")]
     public float walkingSpeed = 1.5f;
     public float runSpeed = 5f;
     public float sprintSpeed = 7f;
     public float rotationSpeed = 15f;
+
+    [Header("Jump Speeds")] 
+    public float jumpHeight = 3f;
+    public float gravityIntensity = -15f;
 
     public void Awake()
     {
@@ -49,6 +54,11 @@ public class PlayerMovement : MonoBehaviour
     
     private void HandleMovement()
     {
+        if (isJumping)
+        {
+            return;
+        }
+        
         _moveDirection = _cameraObject.forward * _inputManager.verticalInput;
         _moveDirection = _moveDirection + _cameraObject.right * _inputManager.horizontalInput;
         _moveDirection.Normalize();
@@ -79,6 +89,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleRotation()
     {
+        if (isJumping)
+        {
+            return;
+        }
+        
         Vector3 targetDirection = Vector3.zero;
 
         targetDirection = _cameraObject.forward * _inputManager.verticalInput;
@@ -101,11 +116,11 @@ public class PlayerMovement : MonoBehaviour
     private void HandleFallingAndLanding()
     {
         RaycastHit hit;
-        //Vector3 rayCastOrigin = transform.position;
         Vector3 rayCastOrigin = transform.position + Vector3.up * 1f;
         rayCastOrigin.y = rayCastOrigin.y + rayCastHeightOffset;
+        //Vector3 rayCastOrigin = transform.position + Vector3.up * rayCastHeightOffset;
 
-        if (!isGrounded)
+        if (!isGrounded && !isJumping)
         {
             if (!_playerManager.isInteracting)
             {
@@ -118,7 +133,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //if (Physics.SphereCast(rayCastOrigin, 0.2f, Vector3.down, out hit, 1.5f, groundLayer))
-        if (Physics.SphereCast(rayCastOrigin, 0.3f, Vector3.down, out hit, 2f))
+        if (Physics.SphereCast(rayCastOrigin, 0.3f, Vector3.down, out hit, 0.7f, groundLayer))
         {
             if (!isGrounded && _playerManager.isInteracting)
             {
@@ -128,6 +143,13 @@ public class PlayerMovement : MonoBehaviour
             inAirTimer = 0;
             isGrounded = true;
             _playerManager.isInteracting = false; 
+            
+            //test for jump hover
+            /*Vector3 targetPosition = transform.position;
+            targetPosition.y = hit.point.y;
+            transform.position = targetPosition;
+            _playerRb.linearVelocity = new Vector3(_playerRb.linearVelocity.x, 0, _playerRb.linearVelocity.z);
+            targetPosition.y = hit.point.y + 0.05f;*/
         }
         else
         {
@@ -136,6 +158,20 @@ public class PlayerMovement : MonoBehaviour
         
         //Debug.Log(isGrounded);
         //Debug.DrawRay(rayCastOrigin, Vector3.down * 1.5f, Color.red);
+    }
+
+    public void HandleJumping()
+    {
+        if (isGrounded)
+        {
+            _animatorManager.animator.SetBool("isJumping", true);
+            _animatorManager.PlayTargetAnimation("Jump",false);
+            
+            float jumpingVelocity = Mathf.Sqrt(-2 * gravityIntensity * jumpHeight);
+            Vector3 playerVelocity = _moveDirection;
+            playerVelocity.y = jumpingVelocity;
+            _playerRb.linearVelocity = playerVelocity;
+        }
     }
     
 }
