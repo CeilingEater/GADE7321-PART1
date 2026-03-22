@@ -864,6 +864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInteracting: 0
+  isUsingRootMotion: 0
 --- !u!114 &1843787139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -876,8 +877,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa53701b552a8a479b57188ede6c995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerRb: {fileID: 0}
   inAirTimer: 0
-  leapingVelocity: 3
+  leapingVelocity: 1
   fallingVelocity: 33
   rayCastHeightOffset: 0
   groundLayer:
@@ -887,7 +889,7 @@ MonoBehaviour:
   isGrounded: 1
   isJumping: 0
   walkingSpeed: 0
-  runSpeed: 5
+  runSpeed: 3
   sprintSpeed: 7
   rotationSpeed: 18
   jumpHeight: 1
@@ -913,6 +915,8 @@ MonoBehaviour:
   horizontalInput: 0
   sprintInput: 0
   jumpInput: 0
+  dodgeInput: 0
+  punchInput: 0
 --- !u!54 &1843787144
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1098,6 +1102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa53701b552a8a479b57188ede6c995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerRb: {fileID: 0}
   inAirTimer: 0
   leapingVelocity: 0
   fallingVelocity: 0
@@ -1127,6 +1132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInteracting: 0
+  isUsingRootMotion: 0
 --- !u!1001 &5620768872433947018
 PrefabInstance:
   m_ObjectHideFlags: 0

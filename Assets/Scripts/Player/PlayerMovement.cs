@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     
     private Vector3 _moveDirection;
     private Transform _cameraObject;
-    Rigidbody _playerRb;
+    public Rigidbody _playerRb;
 
     [Header("Falling")] 
     public float inAirTimer;
@@ -129,6 +129,7 @@ public class PlayerMovement : MonoBehaviour
                 _animatorManager.PlayTargetAnimation("Falling",true);  
             }
             
+            _animatorManager.animator.SetBool("isUsingRootMotion", false);
             inAirTimer = inAirTimer + Time.deltaTime;
             _playerRb.AddForce(transform.forward * leapingVelocity);
             _playerRb.AddForce(-Vector3.up * fallingVelocity * inAirTimer);
@@ -187,6 +188,21 @@ public class PlayerMovement : MonoBehaviour
             playerVelocity.y = jumpingVelocity;
             _playerRb.linearVelocity = playerVelocity;
         }
+    }
+
+    public void HandleDodging()
+    {
+        if (_playerManager.isInteracting)
+            return;
+        _animatorManager.PlayTargetAnimation("Dodge",true, true);
+        //invulnerability
+    }
+    
+    public void HandlePunching()
+    {
+        if (_playerManager.isInteracting)
+            return;
+        _animatorManager.PlayTargetAnimation("Punch",true, true);
     }
     
 }
