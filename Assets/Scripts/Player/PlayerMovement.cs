@@ -14,6 +14,9 @@ public class PlayerMovement : MonoBehaviour
     public float inAirTimer;
     public float leapingVelocity;
     public float fallingVelocity;
+    public float rayCastHeightOffset = 1f;
+    public LayerMask groundLayer;
+    
     
     [Header("Movement Flags")]
     public bool isSprinting;
@@ -41,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         HandleMovement();
         HandleRotation();
+        
     }
     
     private void HandleMovement()
@@ -97,7 +101,9 @@ public class PlayerMovement : MonoBehaviour
     private void HandleFallingAndLanding()
     {
         RaycastHit hit;
-        Vector3 rayCastOrigin = transform.position;
+        //Vector3 rayCastOrigin = transform.position;
+        Vector3 rayCastOrigin = transform.position + Vector3.up * 1f;
+        rayCastOrigin.y = rayCastOrigin.y + rayCastHeightOffset;
 
         if (!isGrounded)
         {
@@ -110,5 +116,26 @@ public class PlayerMovement : MonoBehaviour
             _playerRb.AddForce(transform.forward * leapingVelocity);
             _playerRb.AddForce(-Vector3.up * fallingVelocity * inAirTimer);
         }
+
+        //if (Physics.SphereCast(rayCastOrigin, 0.2f, Vector3.down, out hit, 1.5f, groundLayer))
+        if (Physics.SphereCast(rayCastOrigin, 0.3f, Vector3.down, out hit, 2f))
+        {
+            if (!isGrounded && _playerManager.isInteracting)
+            {
+                _animatorManager.PlayTargetAnimation("Landing",true);
+            }
+
+            inAirTimer = 0;
+            isGrounded = true;
+            _playerManager.isInteracting = false; 
+        }
+        else
+        {
+            isGrounded = false;
+        }
+        
+        //Debug.Log(isGrounded);
+        //Debug.DrawRay(rayCastOrigin, Vector3.down * 1.5f, Color.red);
     }
+    
 }

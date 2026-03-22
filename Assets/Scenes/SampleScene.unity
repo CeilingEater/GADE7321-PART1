@@ -754,6 +754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16003f724c4371946a20235bc1a79083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInteracting: 0
 --- !u!114 &1843787139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -766,6 +767,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa53701b552a8a479b57188ede6c995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inAirTimer: 0
+  leapingVelocity: 3
+  fallingVelocity: 33
+  rayCastHeightOffset: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  isSprinting: 0
+  isGrounded: 1
   walkingSpeed: 0
   runSpeed: 5
   sprintSpeed: 7
@@ -789,6 +799,7 @@ MonoBehaviour:
   _moveAmount: 0
   verticalInput: 0
   horizontalInput: 0
+  sprintInput: 0
 --- !u!54 &1843787144
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -974,6 +985,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa53701b552a8a479b57188ede6c995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inAirTimer: 0
+  leapingVelocity: 0
+  fallingVelocity: 0
+  rayCastHeightOffset: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  isSprinting: 0
+  isGrounded: 0
   walkingSpeed: 0
   runSpeed: 5
   sprintSpeed: 7
@@ -990,6 +1010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16003f724c4371946a20235bc1a79083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInteracting: 0
 --- !u!1001 &5620768872433947018
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1004,11 +1025,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 659276054438954701, guid: 5957bc19b4aac344692e918b7f479ddc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 659276054438954701, guid: 5957bc19b4aac344692e918b7f479ddc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 659276054438954701, guid: 5957bc19b4aac344692e918b7f479ddc, type: 3}
       propertyPath: m_LocalPosition.z
