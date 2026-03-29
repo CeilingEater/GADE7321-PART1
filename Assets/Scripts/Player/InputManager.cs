@@ -19,6 +19,9 @@ public class InputManager : MonoBehaviour
     public float horizontalInput;
     
     public bool sprintInput;
+    public bool jumpInput;
+    public bool dodgeInput;
+    public bool punchInput;
 
     private void Awake()
     {
@@ -37,6 +40,12 @@ public class InputManager : MonoBehaviour
             
             _playerControls.PlayerActions.Shift.performed += i => sprintInput = true;
             _playerControls.PlayerActions.Shift.canceled += i => sprintInput = false;
+            
+            _playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
+            //_playerControls.PlayerActions.Shift.canceled += i => sprintInput = false;
+            
+            _playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
+            _playerControls.PlayerActions.Punch.performed += i => punchInput = true;
         }
         _playerControls.Enable();
     }
@@ -50,6 +59,9 @@ public class InputManager : MonoBehaviour
     {
         HandleMovementInput();
         HandleSprintInput();
+        HandleJumpInput();
+        HandleDodgeInput();
+        HandlePunchInput();
     }
     
     private void HandleMovementInput()
@@ -72,6 +84,34 @@ public class InputManager : MonoBehaviour
         else
         {
             _playerMovement.isSprinting = false;
+        }
+    }
+
+    private void HandleJumpInput()
+    {
+        if (jumpInput)
+        {
+            jumpInput = false;
+            _playerMovement.HandleJumping();
+        }
+    }
+
+    private void HandleDodgeInput()
+    {
+        if (dodgeInput)
+        {
+            dodgeInput = false;
+            _playerMovement.HandleDodging();
+        }
+    }
+    
+    private void HandlePunchInput()
+    {
+        if (punchInput)
+        {
+            punchInput = false;
+            _playerMovement.HandlePunching();
+            
         }
     }
 }
