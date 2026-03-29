@@ -2833,7 +2833,7 @@ MonoBehaviour:
   rayCastHeightOffset: 1
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   isSprinting: 0
   isGrounded: 0
   isJumping: 0
