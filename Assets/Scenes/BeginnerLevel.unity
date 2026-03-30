@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a6307550aaabf74fa78e34d6fdfb401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
+  playerTransform: {fileID: 1843787153}
   currentScore: 0
   currentLives: 0
 --- !u!4 &66476410
@@ -2831,6 +2831,7 @@ MonoBehaviour:
   leapingVelocity: 0
   fallingVelocity: 0
   rayCastHeightOffset: 1
+  groundCheckDistance: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -2941,6 +2942,11 @@ MonoBehaviour:
   currentLives: 0
   score: 0
   livesText: {fileID: 1673210201}
+--- !u!4 &1843787153 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 659276054438954701, guid: 5957bc19b4aac344692e918b7f479ddc, type: 3}
+  m_PrefabInstance: {fileID: 5620768872433947018}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2053303950
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3143,6 +3149,7 @@ MonoBehaviour:
   leapingVelocity: 0
   fallingVelocity: 0
   rayCastHeightOffset: 1
+  groundCheckDistance: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 0

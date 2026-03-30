@@ -15,8 +15,11 @@ public class PlayerMovement : MonoBehaviour
     public float leapingVelocity;
     public float fallingVelocity;
     public float rayCastHeightOffset = 1f;
-    public LayerMask groundLayer;
+   // public LayerMask groundLayer;
     
+    [Header("Ground Check")]
+    public float groundCheckDistance = 0.2f;
+    public LayerMask groundLayer;
     
     [Header("Movement Flags")]
     public bool isSprinting;
@@ -84,8 +87,11 @@ public class PlayerMovement : MonoBehaviour
         _moveDirection = _moveDirection * runSpeed;
 
         Vector3 movementVelocity = _moveDirection;
+        movementVelocity.y = _playerRb.linearVelocity.y;
         _playerRb.linearVelocity = movementVelocity;
     }
+    
+    
 
     private void HandleRotation()
     {
@@ -112,68 +118,29 @@ public class PlayerMovement : MonoBehaviour
         
         transform.rotation = playerRotation;
     }
+    
 
     private void HandleFallingAndLanding()
     {
-        RaycastHit hit;
-        Vector3 rayCastOrigin = transform.position + Vector3.up * 1f;
-        rayCastOrigin.y = rayCastOrigin.y + rayCastHeightOffset;
-        Vector3 targetPosition;
-        targetPosition = transform.position;
-        //Vector3 rayCastOrigin = transform.position + Vector3.up * rayCastHeightOffset;
+        // Increase the distance slightly and use a Debug Ray to see it in the Scene view
+        float rayCastHeightOffset = 0.5f; 
+        Vector3 rayCastOrigin = transform.position + (Vector3.up * rayCastHeightOffset);
+    
+        // This draws a red line in your Scene window so you can see if it hits the floor
+        Debug.DrawRay(rayCastOrigin, Vector3.down * (rayCastHeightOffset + groundCheckDistance), Color.red);
 
-        if (!isGrounded && !isJumping)
+        isGrounded = Physics.Raycast(rayCastOrigin, Vector3.down, rayCastHeightOffset + groundCheckDistance, groundLayer);
+
+        if (!isGrounded)
         {
-            if (!_playerManager.isInteracting)
-            {
-                _animatorManager.PlayTargetAnimation("Falling",true);  
-            }
-            
-            _animatorManager.animator.SetBool("isUsingRootMotion", false);
-            inAirTimer = inAirTimer + Time.deltaTime;
-            _playerRb.AddForce(transform.forward * leapingVelocity);
-            _playerRb.AddForce(-Vector3.up * fallingVelocity * inAirTimer);
-        }
-
-        //if (Physics.SphereCast(rayCastOrigin, 0.2f, Vector3.down, out hit, 1.5f, groundLayer))
-        if (Physics.SphereCast(rayCastOrigin, 0.3f, Vector3.down, out hit, 0.7f, groundLayer))
-        {
-            if (!isGrounded && _playerManager.isInteracting)
-            {
-                _animatorManager.PlayTargetAnimation("Landing",true);
-            }
-
-            Vector3 rayCastHitPoint = hit.point;
-            targetPosition.y = rayCastHitPoint.y;
-            inAirTimer = 0;
-            isGrounded = true;
-            _playerManager.isInteracting = false; 
-            
-            //test for jump hover
-            /*Vector3 targetPosition = transform.position;
-            targetPosition.y = hit.point.y;
-            transform.position = targetPosition;
-            _playerRb.linearVelocity = new Vector3(_playerRb.linearVelocity.x, 0, _playerRb.linearVelocity.z);
-            targetPosition.y = hit.point.y + 0.05f;*/
+            inAirTimer += Time.deltaTime;
+            // Apply downward force
+            _playerRb.AddForce(Vector3.down * fallingVelocity * inAirTimer, ForceMode.Acceleration);
         }
         else
         {
-            isGrounded = false;
+            inAirTimer = 0;
         }
-
-        if (isSprinting && !isJumping)
-        {
-            if (_playerManager.isInteracting || _inputManager._moveAmount >= 0f)
-            {
-                transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime / 0.1f);
-            }
-            else
-            {
-                transform.position = targetPosition;
-            }
-        }
-        //Debug.Log(isGrounded);
-        //Debug.DrawRay(rayCastOrigin, Vector3.down * 1.5f, Color.red);
     }
 
     public void HandleJumping()
