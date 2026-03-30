@@ -23,6 +23,14 @@ public class InputManager : MonoBehaviour
     public bool dodgeInput;
     public bool punchInput;
 
+    private void Start()
+    {
+        Cursor.visible = false;
+    
+        // Locks the cursor to the center of the game window
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     private void Awake()
     {
         _animatorManager = GetComponent<AnimatorManager>();

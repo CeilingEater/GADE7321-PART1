@@ -84,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         
-        _moveDirection = _moveDirection * runSpeed;
+        //_moveDirection = _moveDirection * runSpeed;
 
         Vector3 movementVelocity = _moveDirection;
         movementVelocity.y = _playerRb.linearVelocity.y;
@@ -122,32 +122,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleFallingAndLanding()
     {
-        // Start the ray slightly above the feet
+        RaycastHit hit;
         Vector3 rayCastOrigin = transform.position + (Vector3.up * 0.1f);
-    
-        // Check for ground. 
-        // IMPORTANT: Make sure the 'groundLayer' in Inspector is set to 'Default' 
-        // AND the Player's own Layer is NOT 'Default' (set Player to a 'Ignore Raycast' or 'Player' layer).
-        isGrounded = Physics.Raycast(rayCastOrigin, Vector3.down, groundCheckDistance + 0.1f, groundLayer);
+        
+        isGrounded = Physics.Raycast(rayCastOrigin, Vector3.down, out hit, groundCheckDistance + 0.1f, groundLayer);
 
         if (!isGrounded)
         {
             inAirTimer += Time.deltaTime;
-        
-            // This manually adds extra gravity if Unity's built-in gravity isn't enough
-            _playerRb.AddForce(Vector3.down * fallingVelocity * inAirTimer, ForceMode.Acceleration);
+            
+            float constantGravity = 9.81f;
+            _playerRb.AddForce(Vector3.down * (fallingVelocity + constantGravity) * inAirTimer, ForceMode.Acceleration);
         }
         else
         {
+           
             inAirTimer = 0;
-            // If we are grounded, make sure we aren't still trying to 'fall'
-            if (_playerRb.linearVelocity.y < 0) 
-            {
-                // This stops the 'vibrating' on the floor
-                Vector3 vel = _playerRb.linearVelocity;
-                vel.y = 0;
-                _playerRb.linearVelocity = vel;
-            }
         }
     }
 
