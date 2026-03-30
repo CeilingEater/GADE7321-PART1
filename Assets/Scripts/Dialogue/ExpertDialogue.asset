@@ -10,16 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2dc80fd19622fd40808785436342218, type: 3}
-  m_Name: BeginnerDialogue
+  m_Name: ExpertDialogue
   m_EditorClassIdentifier: 
-  name: beginner dialogue
+  name: ExpertDialogue
   dialogueIcon: {fileID: 21300000, guid: 0e7c3c0302a241941b8ee633168b396f, type: 3}
   sentences:
   - You find yourself in a strange place...
-  - 'Use WASD or the Left Stick to move around. '
-  - Use the spacebar to jump, or A on your controller.
-  - Hold Shift to run, or the right bumper on your controller.
-  - Collect memories to unlock the door to the next area.
-  - But be careful, you only have so many lives...
-  - Be careful not to fall. You'll lose a life that way.
-  - If you lose all your lives, you'll have to restart the level.
+  - 'This is the final stretch. '
+  - More enemies are patroling. Some are sharper than others.
+  - Once again, collect memories. Good Luck!

@@ -38,7 +38,18 @@ public class PlayerStats : MonoBehaviour
 
     public void GainLife()
     {
-        currentLives++;
+        if (currentLives >= maxLives)
+        {
+            maxLives++;
+            currentLives = maxLives;
+            Debug.Log("Max Lives Increased to: " + maxLives);
+        }
+        else
+        {
+            currentLives++;
+            Debug.Log("Life Replenished. Current: " + currentLives);
+        }
+    
         UpdateUI();
     }
 

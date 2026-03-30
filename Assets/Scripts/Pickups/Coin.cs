@@ -1,19 +1,12 @@
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Coin : Collectable
 {
     public int scoreValue = 10;
 
-    private void OnTriggerEnter(Collider other)
+    protected override void ApplyEffect()
     {
-        if (other.CompareTag("Player"))
-        {
-            PlayerStats.instance.score += scoreValue;
-            
-            Debug.Log("Score: " + PlayerStats.instance.score);
-            
-            Destroy(gameObject);
-        }
+        PlayerStats.instance.score += scoreValue;
+        Debug.Log("Score: " + PlayerStats.instance.score);
     }
 }
-
