@@ -26,12 +26,13 @@ public class PlayerStats : MonoBehaviour
 
         if (currentLives > 0)
         {
-            Respawn();
+            // Use the Stack to go back one step
+            Respawn(); 
         }
         else
         {
-            Debug.Log("Game Over!");
-            // sceneloader 
+            Debug.Log("Game Over! Resetting everything.");
+            ResetToStart();
         }
     }
 
@@ -51,5 +52,20 @@ public class PlayerStats : MonoBehaviour
     void UpdateUI()
     {
         if (livesText != null) livesText.text = "Lives: " + currentLives;
+    }
+    
+    void ResetToStart()
+    {
+        // 1. Clear the Stack completely
+        CheckpointManager cpManager = FindFirstObjectByType<CheckpointManager>();
+        cpManager.ResetStack(); // We need to add this method to CheckpointManager
+
+        // 2. Reset Stats
+        currentLives = maxLives;
+        score = 0;
+        UpdateUI();
+
+        // 3. Move player to a designated "Spawn Point" (e.g., 0,0,0)
+        transform.position = new Vector3(0, 5, 0); 
     }
 }

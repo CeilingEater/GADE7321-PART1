@@ -37,4 +37,12 @@ public class CheckpointManager : MonoBehaviour
         
         Debug.Log("Loaded last checkpoint");
     }
+    
+    public void ResetStack()
+    {
+        // Since we are using your custom StackNode, 
+        // we just "New" it up to wipe the old references.
+        _history = new StackNode<CheckpointData>();
+        Debug.Log("Checkpoint Stack Cleared!");
+    }
 }

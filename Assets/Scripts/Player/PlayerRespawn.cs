@@ -10,7 +10,8 @@ public class PlayerRespawn : MonoBehaviour
     {
         if (transform.position.y < threshold)
         {
-            checkpointManager.LoadLastCheckpoint();
+            
+            PlayerStats.instance.LoseLife();
         }
     }
 }
