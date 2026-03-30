@@ -20,6 +20,7 @@ MonoBehaviour:
   - Use the spacebar to jump, or A on your controller.
   - Hold Shift to run, or the right bumper on your controller.
   - Collect memories to unlock the door to the next area.
+  - The green patches are checkpoints. Use them to save your progress for each area.
   - But be careful, you only have so many lives...
   - Be careful not to fall. You'll lose a life that way.
   - If you lose all your lives, you'll have to restart the level.

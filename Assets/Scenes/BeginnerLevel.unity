@@ -2442,15 +2442,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2608466126694172744, guid: c80f83a58eacc8548abd62280711a065, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2608466126694172744, guid: c80f83a58eacc8548abd62280711a065, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000047683716
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2608466126694172744, guid: c80f83a58eacc8548abd62280711a065, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.0628414
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2608466126694172744, guid: c80f83a58eacc8548abd62280711a065, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2718,6 +2718,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c80f83a58eacc8548abd62280711a065, type: 3}
+--- !u!1001 &3536614014868297356
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 834084026502935560, guid: e70631b332c830241a6c185be653bdec, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 834084026502935560, guid: e70631b332c830241a6c185be653bdec, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 834084026502935560, guid: e70631b332c830241a6c185be653bdec, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 834084026502935560, guid: e70631b332c830241a6c185be653bdec, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 834084026502935560, guid: e70631b332c830241a6c185be653bdec, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 834084026502935560, guid: e70631b332c830241a6c185be653bdec, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 834084026502935560, guid: e70631b332c830241a6c185be653bdec, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 834084026502935560, guid: e70631b332c830241a6c185be653bdec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 834084026502935560, guid: e70631b332c830241a6c185be653bdec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 834084026502935560, guid: e70631b332c830241a6c185be653bdec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8425205805528113743, guid: e70631b332c830241a6c185be653bdec, type: 3}
+      propertyPath: m_Name
+      value: MovingPlatform
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e70631b332c830241a6c185be653bdec, type: 3}
 --- !u!1001 &4649713329794382707
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2736,7 +2793,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1854197610808352704, guid: 3acaf5453f3c1ea41b7145448700cbca, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 12.82
+      value: 6.73
       objectReference: {fileID: 0}
     - target: {fileID: 1854197610808352704, guid: 3acaf5453f3c1ea41b7145448700cbca, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2983,3 +3040,4 @@ SceneRoots:
   - {fileID: 193636669}
   - {fileID: 4649713329794382707}
   - {fileID: 7454450143868876261}
+  - {fileID: 3536614014868297356}
