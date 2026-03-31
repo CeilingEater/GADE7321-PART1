@@ -20,8 +20,9 @@ public class PlayerStats : MonoBehaviour
     public Button menuButton;
     
     public TextMeshProUGUI loseText;
-    public Button restartButton;
+    public Button continueButton;
     
+    public GameObject winPanel;
     
     public Vector3 startPosition;
 
@@ -33,7 +34,7 @@ public class PlayerStats : MonoBehaviour
         if (winText) winText.enabled = false;
         if (loseText) loseText.enabled = false; 
         if (menuButton) menuButton.enabled = false;
-        if (restartButton) restartButton.enabled = false;
+        if (continueButton) continueButton.enabled = false;
         UpdateUI();
     }
     
@@ -41,15 +42,33 @@ public class PlayerStats : MonoBehaviour
     {
         if (winText != null) winText.enabled = true;
         menuButton.enabled = true;
-        //Time.timeScale = 0; 
+   
     }
     
-    public void GameOver()
+    public void WinLevel() //why we got 2 functions for winning the level? who knows
+    {
+       
+        if (winPanel != null)
+        {
+            winPanel.SetActive(true);
+        }
+        
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null) rb.linearVelocity = Vector3.zero;
+    
+ 
+        GetComponent<Animator>().Play("Victory"); 
+    }
+    
+    /*public void GameOver()
     {
         if (loseText != null) loseText.enabled = true;
-        restartButton.enabled = true;
+        continueButton.enabled = true;
         //Time.timeScale = 0; 
-    }
+    }*/
 
     public void LoseLife()
     {
@@ -111,7 +130,7 @@ public class PlayerStats : MonoBehaviour
         CheckpointManager cpManager = FindFirstObjectByType<CheckpointManager>();
         cpManager.ResetStack();
 
-        GameOver();
+        //GameOver();
         currentLives = maxLives;
         score = 0;
         UpdateUI();
