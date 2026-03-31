@@ -7,6 +7,7 @@ public class Coin : Collectable
     protected override void ApplyEffect()
     {
         PlayerStats.instance.score += scoreValue;
+        PlayerStats.instance.UpdateUI();
         Debug.Log("Score: " + PlayerStats.instance.score);
     }
 }

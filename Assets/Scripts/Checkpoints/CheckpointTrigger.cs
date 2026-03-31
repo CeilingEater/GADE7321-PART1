@@ -16,6 +16,8 @@ public class CheckpointTrigger : MonoBehaviour
         {
             _checkpointManager.SaveCheckpoint();
             _hasBeenActivated = true;
+            
+            Debug.Log("Activated checkpoint");
             //OnCheckPointActivated();
         }
     }

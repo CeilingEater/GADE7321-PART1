@@ -8,8 +8,11 @@ public class PlayerStats : MonoBehaviour
     public int maxLives = 5;
     public int currentLives;
     public int score = 0;
-
+     
+    public TextMeshProUGUI scoreText;
     public TextMeshProUGUI livesText; 
+    
+    public Vector3 startPosition;
 
     void Awake() { instance = this; }
 
@@ -52,31 +55,43 @@ public class PlayerStats : MonoBehaviour
     
         UpdateUI();
     }
-
+    
     void Respawn()
     {
-        // This is where you call your partner's Stack system
-        // Example: transform.position = CheckpointManager.instance.GetLastCheckpoint();
+        GetComponent<Animator>().SetBool("IsInteracting", false);
         Debug.Log("Resetting player to last checkpoint...");
+        CheckpointManager cpManager = FindFirstObjectByType<CheckpointManager>();
+        if (cpManager != null)
+        {
+            cpManager.LoadLastCheckpoint();
+        }
     }
 
-    void UpdateUI()
+    public void UpdateUI()
     {
-        if (livesText != null) livesText.text = "Lives: " + currentLives;
+        if (livesText != null) 
+            livesText.text = "Lives: " + currentLives;
+    
+        if (scoreText != null) 
+            scoreText.text = "Score: " + score;
     }
     
     void ResetToStart()
     {
-        // 1. Clear the Stack completely
+        GetComponent<Animator>().SetBool("IsInteracting", false);
+        
         CheckpointManager cpManager = FindFirstObjectByType<CheckpointManager>();
-        cpManager.ResetStack(); // We need to add this method to CheckpointManager
+        cpManager.ResetStack();
 
-        // 2. Reset Stats
+        
         currentLives = maxLives;
         score = 0;
         UpdateUI();
 
-        // 3. Move player to a designated "Spawn Point" (e.g., 0,0,0)
-        transform.position = new Vector3(0, 5, 0); 
+        transform.position = startPosition;
+    
+   
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if(rb != null) rb.linearVelocity = Vector3.zero;
     }
 }

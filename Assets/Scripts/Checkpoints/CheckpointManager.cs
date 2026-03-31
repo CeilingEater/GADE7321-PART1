@@ -16,33 +16,39 @@ public class CheckpointManager : MonoBehaviour
 
     public void SaveCheckpoint()
     {
-        CheckpointData newCheckpoint = new CheckpointData(playerTransform.position, currentScore, currentLives);
+        int savedScore = PlayerStats.instance.score;
+        int savedLives = PlayerStats.instance.currentLives;
+
+        CheckpointData newCheckpoint = new CheckpointData(playerTransform.position, savedScore, savedLives);
         _history.Push(newCheckpoint);
-        Debug.Log("Saved Checkpoint");
     }
 
     public void LoadLastCheckpoint()
     {
-        if (_history.IsEmpty())
-        {
-            Debug.LogWarning("no checkpoints to load");
-            return;
-        }
-        
+        if (_history.IsEmpty()) return;
+    
         CheckpointData lastCheckpoint = _history.Peek();
         
         playerTransform.position = lastCheckpoint.position;
-        currentScore = lastCheckpoint.score;
-        currentLives = lastCheckpoint.lives;
         
-        Debug.Log("Loaded last checkpoint");
+        Rigidbody rb = playerTransform.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+        PlayerMovement movement = playerTransform.GetComponent<PlayerMovement>();
+        if (movement != null)
+        {
+            movement.inAirTimer = 0;
+        }
+    
+        Debug.Log("Going to checkpoint: " + lastCheckpoint.position);
     }
     
     public void ResetStack()
     {
-        // Since we are using your custom StackNode, 
-        // we just "New" it up to wipe the old references.
         _history = new StackNode<CheckpointData>();
-        Debug.Log("Checkpoint Stack Cleared!");
+        Debug.Log("stack cleared");
     }
 }

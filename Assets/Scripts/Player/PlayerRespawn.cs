@@ -10,7 +10,6 @@ public class PlayerRespawn : MonoBehaviour
     {
         if (transform.position.y < threshold)
         {
-            
             PlayerStats.instance.LoseLife();
         }
     }

@@ -35,6 +35,13 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jump Speeds")] 
     public float jumpHeight = 3f;
     public float gravityIntensity = -15f;
+    
+    void Start()
+    {
+        HandleFallingAndLanding(); 
+        
+        _animatorManager.animator.SetBool("isInteracting", false);
+    }
 
     public void Awake()
     {
@@ -67,7 +74,6 @@ public class PlayerMovement : MonoBehaviour
         _moveDirection.Normalize();
         _moveDirection.y = 0;
         
-        //sprint vs run section
         if (isSprinting)
         {
             _moveDirection *= sprintSpeed;
@@ -84,11 +90,16 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         
-        //_moveDirection = _moveDirection * runSpeed;
-
         Vector3 movementVelocity = _moveDirection;
         movementVelocity.y = _playerRb.linearVelocity.y;
         _playerRb.linearVelocity = movementVelocity;
+        
+        if (isGrounded)
+        {
+            inAirTimer = 0;
+            isJumping = false; 
+            _animatorManager.animator.SetBool("isJumping", false); 
+        }
     }
     
     
@@ -124,20 +135,21 @@ public class PlayerMovement : MonoBehaviour
     {
         RaycastHit hit;
         Vector3 rayCastOrigin = transform.position + (Vector3.up * 0.1f);
-        
+
         isGrounded = Physics.Raycast(rayCastOrigin, Vector3.down, out hit, groundCheckDistance + 0.1f, groundLayer);
 
         if (!isGrounded)
         {
+            if (inAirTimer == 0) inAirTimer = 0.1f; 
+
             inAirTimer += Time.deltaTime;
             
-            float constantGravity = 9.81f;
-            _playerRb.AddForce(Vector3.down * (fallingVelocity + constantGravity) * inAirTimer, ForceMode.Acceleration);
+            _playerRb.AddForce(Vector3.down * fallingVelocity * inAirTimer, ForceMode.Acceleration);
         }
         else
         {
-           
             inAirTimer = 0;
+            _animatorManager.animator.SetBool("isInteracting", false); 
         }
     }
 
