@@ -1,16 +1,27 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats instance;
+    SceneManager sceneManager;
 
     public int maxLives = 5;
     public int currentLives;
     public int score = 0;
      
+    [Header("UI Elements")]
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI livesText; 
+    
+    public TextMeshProUGUI winText;
+    public Button menuButton;
+    
+    public TextMeshProUGUI loseText;
+    public Button restartButton;
+    
     
     public Vector3 startPosition;
 
@@ -19,7 +30,25 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         currentLives = maxLives;
+        if (winText) winText.enabled = false;
+        if (loseText) loseText.enabled = false; 
+        if (menuButton) menuButton.enabled = false;
+        if (restartButton) restartButton.enabled = false;
         UpdateUI();
+    }
+    
+    public void WinGame()
+    {
+        if (winText != null) winText.enabled = true;
+        menuButton.enabled = true;
+        //Time.timeScale = 0; 
+    }
+    
+    public void GameOver()
+    {
+        if (loseText != null) loseText.enabled = true;
+        restartButton.enabled = true;
+        //Time.timeScale = 0; 
     }
 
     public void LoseLife()
@@ -27,15 +56,14 @@ public class PlayerStats : MonoBehaviour
         currentLives--;
         UpdateUI();
 
-        if (currentLives > 0)
-        {
-            // Use the Stack to go back one step
-            Respawn(); 
-        }
-        else
+        if (currentLives <= 0)
         {
             Debug.Log("Game Over! Resetting everything.");
             ResetToStart();
+        }
+        else
+        {
+            Respawn(); 
         }
     }
 
@@ -83,7 +111,7 @@ public class PlayerStats : MonoBehaviour
         CheckpointManager cpManager = FindFirstObjectByType<CheckpointManager>();
         cpManager.ResetStack();
 
-        
+        GameOver();
         currentLives = maxLives;
         score = 0;
         UpdateUI();
@@ -93,5 +121,7 @@ public class PlayerStats : MonoBehaviour
    
         Rigidbody rb = GetComponent<Rigidbody>();
         if(rb != null) rb.linearVelocity = Vector3.zero;
+        
+        Debug.Log("Resetting player to start.");
     }
 }

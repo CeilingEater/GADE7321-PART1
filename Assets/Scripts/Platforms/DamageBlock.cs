@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class HazardTouch : MonoBehaviour
@@ -14,4 +15,5 @@ public class HazardTouch : MonoBehaviour
             }
         }
     }
+    
 }

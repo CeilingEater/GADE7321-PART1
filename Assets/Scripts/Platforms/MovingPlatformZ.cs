@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MovingPlatformZ : MonoBehaviour
@@ -6,6 +7,7 @@ public class MovingPlatformZ : MonoBehaviour
     public float distance = 5.0f; 
     
     private Vector3 startPos;
+    public GameObject Player;
 
     void Start()
     {
