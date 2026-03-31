@@ -26,6 +26,9 @@ public class DialogueManager : MonoBehaviour
     {
         animator.SetBool("IsOpen", true);
         
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        
         nameText.text = dialogue.name;
         if (dialogue.dialogueIcon != null) iconHolder.sprite = dialogue.dialogueIcon;
         
@@ -71,6 +74,9 @@ public class DialogueManager : MonoBehaviour
         Debug.Log("EndDialogue called");
         dialogueText.text = "";
         animator.SetBool("IsOpen", false);
+        
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
 }

@@ -35,6 +35,9 @@ public class CameraManager : MonoBehaviour
 
     public void HandleAllCameraMovement()
     {
+        if (Cursor.visible) //so camera doesnt turn during dialogue
+            return;
+        
         FollowTarget();
         RotateCamera();
         HandleCameraCollisions();
