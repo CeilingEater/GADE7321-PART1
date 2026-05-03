@@ -9,7 +9,7 @@ public abstract class EnemyAIBase : MonoBehaviour
     public Vector3 size;
     public int damage;
     
-    [HideInInspector] public Transform target; // Partner's AI will use this
+    [HideInInspector] public Transform target; // for nav mesh
 
     public virtual void Initialize(Transform playerTarget)
     {

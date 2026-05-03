@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HeavyEnemy : MonoBehaviour
+public class HeavyEnemy : EnemyAIBase
 {
     // Nav mesh stuff here
     private void Start()

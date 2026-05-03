@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ScrappyEnemy : MonoBehaviour
+public class ScrappyEnemy : EnemyAIBase
 {
     // add code for nav mesh stuff here
     private void Start()
