@@ -2,9 +2,14 @@ using UnityEngine;
 
 public class HeavyEnemy : EnemyAIBase
 {
-    // Nav mesh stuff here
-    private void Start()
+    public override void Initialize(Transform playerTarget)
     {
-        Debug.Log("Heavy enemy spawned");
+        base.Initialize(playerTarget);
+        canPatrol = true; // Heavy enemies patrol
+    }
+
+    private void Update()
+    {
+        UpdatePatrol();
     }
 }

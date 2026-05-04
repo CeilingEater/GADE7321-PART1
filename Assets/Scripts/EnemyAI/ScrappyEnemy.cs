@@ -2,9 +2,14 @@ using UnityEngine;
 
 public class ScrappyEnemy : EnemyAIBase
 {
-    // add code for nav mesh stuff here
-    private void Start()
+    public override void Initialize(Transform playerTarget)
     {
-        Debug.Log("Scrappy's in town!");
+        base.Initialize(playerTarget);
+        canPatrol = true; 
+    }
+
+    private void Update()
+    {
+        UpdatePatrol();
     }
 }
