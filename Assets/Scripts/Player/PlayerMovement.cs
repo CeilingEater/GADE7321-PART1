@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
         
     }
     
-    private void HandleMovement()
+    public void HandleMovement()
     {
         if (isJumping)
         {
@@ -104,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
     
     
 
-    private void HandleRotation()
+    public void HandleRotation()
     {
         if (isJumping)
         {
@@ -131,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
     }
     
 
-    private void HandleFallingAndLanding()
+    public void HandleFallingAndLanding()
     {
         RaycastHit hit;
         Vector3 rayCastOrigin = transform.position + (Vector3.up * 0.1f);
