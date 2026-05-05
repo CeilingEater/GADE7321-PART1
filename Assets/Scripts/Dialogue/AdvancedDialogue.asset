@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2dc80fd19622fd40808785436342218, type: 3}
   m_Name: AdvancedDialogue
   m_EditorClassIdentifier: 
-  name: AdvancedDialogue
+  name: Advanced Dialogue
   dialogueIcon: {fileID: 21300000, guid: 0e7c3c0302a241941b8ee633168b396f, type: 3}
   sentences:
   - You find yourself in a stranger place...
