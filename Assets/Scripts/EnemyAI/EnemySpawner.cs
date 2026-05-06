@@ -2,57 +2,67 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.AI;
 
+[System.Serializable]
+public class EnemySpawnSetup
+{
+    public Transform spawnPoint;
+    public List<Transform> waypoints;
+    // We removed 'enemyType' from here so any enemy can spawn here!
+}
 public class EnemySpawner : MonoBehaviour
 {
     public EnemyFactoryBase factory; 
-    public List<Transform> spawnPoints;
+    public List<EnemySpawnSetup> levelSpawnSetups;
 
-    [Header("Waypoint Groups")]
-    public List<Transform> scrappyWaypoints;
-    public List<Transform> heavyWaypoints;
-
-    void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.S)) SpawnEnemy("scrappy");
-        if (Input.GetKeyDown(KeyCode.H)) SpawnEnemy("heavy");
-        if (Input.GetKeyDown(KeyCode.T)) SpawnEnemy("turret");
+        foreach (EnemySpawnSetup setup in levelSpawnSetups)
+        {
+            SpawnRandomEnemyAtSetup(setup);
+        }
     }
 
-    void SpawnEnemy(string type)
+    void SpawnRandomEnemyAtSetup(EnemySpawnSetup setup)
     {
-        if (spawnPoints.Count == 0) return;
-        
-        Vector3 pos = spawnPoints[Random.Range(0, spawnPoints.Count)].position;
+        if (setup.spawnPoint == null) return;
+
+        // 1. Pick a random number between 0 and 2
+        int selection = Random.Range(0, 3); 
         EnemyAIBase newEnemy = null;
+        Vector3 pos = setup.spawnPoint.position;
 
-        if (type == "scrappy")
+        // 2. Use the factory based on the random selection
+        switch (selection)
         {
-            newEnemy = factory.CreateScrappy(pos);
-            AssignWaypoints(newEnemy, scrappyWaypoints);
-        }
-        else if (type == "heavy")
-        {
-            newEnemy = factory.CreateHeavy(pos);
-            AssignWaypoints(newEnemy, heavyWaypoints);
-        }
-        else if (type == "turret")
-        {
-            newEnemy = factory.CreateTurret(pos);
+            case 0:
+                newEnemy = factory.CreateScrappy(pos);
+                AssignWaypoints(newEnemy, setup.waypoints);
+                break;
+            case 1:
+                newEnemy = factory.CreateHeavy(pos);
+                AssignWaypoints(newEnemy, setup.waypoints);
+                break;
+            case 2:
+                newEnemy = factory.CreateTurret(pos);
+                // Turrets are static, so they ignore the waypoints list
+                break;
         }
     }
 
-    // Helper to fill the Linked List
     void AssignWaypoints(EnemyAIBase enemy, List<Transform> waypoints)
     {
+        if (waypoints == null || enemy == null) return;
+
         foreach (Transform wp in waypoints)
         {
             enemy.patrolWaypoints.Insert(wp);
         }
         
-        // Give them their first destination immediately
+        // Ensure the NavMeshAgent starts moving toward the local path immediately
         if (waypoints.Count > 0)
         {
-            enemy.GetComponent<NavMeshAgent>().SetDestination(waypoints[0].position);
+            var agent = enemy.GetComponent<UnityEngine.AI.NavMeshAgent>();
+            if (agent != null) agent.SetDestination(waypoints[0].position);
         }
     }
 }

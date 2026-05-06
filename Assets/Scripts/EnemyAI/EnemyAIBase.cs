@@ -9,6 +9,7 @@ public abstract class EnemyAIBase : MonoBehaviour
     public float speed;
     public Vector3 size;
     public int damage;
+    public Transform target;
     
     protected NavMeshAgent agent;
     // Using your custom Linked List!
@@ -37,6 +38,22 @@ public abstract class EnemyAIBase : MonoBehaviour
         {
             currentWaypointIndex = (currentWaypointIndex + 1) % patrolWaypoints.Size;
             agent.SetDestination(patrolWaypoints[currentWaypointIndex].position);
+        }
+    }
+    
+    // Using OnCollisionEnter because these enemies have Rigidbody/NavMeshAgent
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Access your Singleton to trigger life loss
+            PlayerStats.instance.LoseLife();
+        
+            // Optional: If you want Scrappy to vanish after hitting the player
+            if (this is ScrappyEnemy) 
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
