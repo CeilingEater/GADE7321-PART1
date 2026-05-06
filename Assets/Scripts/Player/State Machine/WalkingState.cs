@@ -11,7 +11,7 @@ public class WalkingState : PlayerBaseState
     {
         InputManager input = player.GetComponent<InputManager>();
 
-        if (input._moveAmount <= 0)
+        if (input._moveAmount <= 0.1f)
         { 
             player.SwitchState(player.idleState);
         }

@@ -10,11 +10,11 @@ public class PlayerManager : MonoBehaviour
     public IdleState idleState = new IdleState();
     public JumpingState jumpingState = new JumpingState();
     
-    InputManager _inputManager;
-    CameraManager _cameraManager;
-    PlayerMovement _playerMovement;
-    AnimatorManager _animatorManager;
-    Animator _animator;
+    [HideInInspector] public InputManager _inputManager;
+    [HideInInspector] public CameraManager _cameraManager;
+    [HideInInspector] public PlayerMovement _playerMovement;
+    [HideInInspector] public AnimatorManager _animatorManager;
+    [HideInInspector] public Animator _animator;
     
     public bool isInteracting;
     public bool isUsingRootMotion;
@@ -39,13 +39,20 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         _inputManager.HandleAllInput();
-        currentState.UpdateState(this);
+
+        if (currentState != null)
+        {
+            currentState.UpdateState(this);
+        }
     }
 
     private void FixedUpdate()
     {
         //_playerMovement.HandleAllMovement();
-        currentState.FixedUpdateState(this, _playerMovement);
+        if (currentState != null)
+        {
+            currentState.FixedUpdateState(this, _playerMovement);
+        }
     }
 
     private void LateUpdate()
@@ -62,10 +69,10 @@ public class PlayerManager : MonoBehaviour
 
     public void SwitchState(PlayerBaseState newState)
     {
-        if (currentState != null)
+        /*if (currentState != null)
         {
             currentState.ExitState(this);
-        }
+        }*/
         
         currentState = newState;
         currentState.EnterState(this, _playerMovement, _animatorManager);

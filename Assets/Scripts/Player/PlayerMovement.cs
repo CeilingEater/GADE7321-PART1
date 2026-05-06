@@ -94,12 +94,12 @@ public class PlayerMovement : MonoBehaviour
         movementVelocity.y = _playerRb.linearVelocity.y;
         _playerRb.linearVelocity = movementVelocity;
         
-        if (isGrounded)
+        /*if (isGrounded)
         {
             inAirTimer = 0;
             isJumping = false; 
             _animatorManager.animator.SetBool("isJumping", false); 
-        }
+        }*/
     }
     
     
@@ -161,9 +161,15 @@ public class PlayerMovement : MonoBehaviour
             _animatorManager.PlayTargetAnimation("Jump",false);
             
             float jumpingVelocity = Mathf.Sqrt(-2 * gravityIntensity * jumpHeight);
-            Vector3 playerVelocity = _moveDirection;
-            playerVelocity.y = jumpingVelocity;
-            _playerRb.linearVelocity = playerVelocity;
+            Vector3 jumpVelocity = _moveDirection;
+
+            if (_inputManager._moveAmount <= 0.1f)
+            {
+                jumpVelocity = Vector3.zero;
+            }
+            
+            jumpVelocity.y = jumpingVelocity;
+            _playerRb.linearVelocity = jumpVelocity;
         }
     }
 

@@ -86,7 +86,7 @@ public class AnimatorManager : MonoBehaviour
         }
         
         animator.SetFloat(_horizontal, snappedHorizontal,0.1f, Time.deltaTime);
-        animator.SetFloat(_vertical, snappedVertical,0.1f, Time.deltaTime);
+        animator.SetFloat(_vertical, snappedVertical,0.05f, Time.deltaTime);
     }
 
     private void OnAnimatorMove()
