@@ -1704,6 +1704,10 @@ PrefabInstance:
       propertyPath: jumpHeight
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1460438119354886116, guid: 60b4ee5acdbaf614db941da010b29ead, type: 3}
+      propertyPath: airControlSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1843801495234889431, guid: 60b4ee5acdbaf614db941da010b29ead, type: 3}
       propertyPath: winText
       value: 
