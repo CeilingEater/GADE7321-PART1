@@ -3,26 +3,30 @@ using UnityEngine;
 public class TurretEnemy : EnemyAIBase
 {
     public GameObject bulletPrefab;
-    public Transform firePoint; // Create an empty child on the turret to act as a nozzle
+    public Transform firePoint; 
     public float fireRate = 2f;
     private float _nextFireTime;
 
     public override void Initialize(Transform playerTarget)
     {
         base.Initialize(playerTarget);
-        canPatrol = false; // Turrets stay static
+        canPatrol = false; 
+        
+        _nextFireTime = Time.time + fireRate;
     }
 
     private void Update()
     {
         if (target == null) return;
-
-        // 1. Rotate to face the player (Liminal/Eerie "Stalking" look)
+        
         Vector3 targetDir = target.position - transform.position;
-        targetDir.y = 0; // Keep the turret upright
-        transform.rotation = Quaternion.LookRotation(targetDir);
+        targetDir.y = 0;
 
-        // 2. Fire at intervals
+        if (targetDir != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(targetDir);
+        }
+        
         if (Time.time >= _nextFireTime)
         {
             Shoot();
@@ -39,7 +43,6 @@ public class TurretEnemy : EnemyAIBase
         }
         else
         {
-            // This will tell us if the script running is the "empty" one
             Debug.LogError($"{gameObject.name} is trying to shoot but has no Bullet or FirePoint!");
         }
     }

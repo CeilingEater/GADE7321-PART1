@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class JumpingState : PlayerBaseState
 {
-    private AnimatorManager animatorManager;
-    private float jumpTimer;
+    //private AnimatorManager animatorManager;
+    //private float jumpTimer;
     private float cooldownTimer;
     public override void EnterState(PlayerManager player, PlayerMovement movement, AnimatorManager animator)
     {
@@ -31,6 +31,7 @@ public class JumpingState : PlayerBaseState
 
     public override void FixedUpdateState(PlayerManager player, PlayerMovement movement)
     {
+        movement.HandleAirMovement();
         movement.HandleFallingAndLanding();
     }
 

@@ -36,6 +36,9 @@ public class PlayerMovement : MonoBehaviour
     public float jumpHeight = 3f;
     public float gravityIntensity = -15f;
     
+    //air control
+    public float airControlSpeed = 4f;
+    
     void Start()
     {
         //HandleFallingAndLanding(); 
@@ -161,12 +164,16 @@ public class PlayerMovement : MonoBehaviour
             _animatorManager.PlayTargetAnimation("Jump",false);
             
             float jumpingVelocity = Mathf.Sqrt(-2 * gravityIntensity * jumpHeight);
-            Vector3 jumpVelocity = _moveDirection;
+            Vector3 jumpDirection = _cameraObject.forward * _inputManager.verticalInput;
+            jumpDirection = jumpDirection + _cameraObject.right * _inputManager.horizontalInput;
+            jumpDirection.Normalize();
 
-            if (_inputManager._moveAmount <= 0.1f)
+            Vector3 jumpVelocity = _moveDirection * walkingSpeed;
+
+            /*if (_inputManager._moveAmount <= 0.1f)
             {
                 jumpVelocity = Vector3.zero;
-            }
+            }*/
             
             jumpVelocity.y = jumpingVelocity;
             _playerRb.linearVelocity = jumpVelocity;
@@ -186,6 +193,19 @@ public class PlayerMovement : MonoBehaviour
         if (_playerManager.isInteracting)
             return;
         _animatorManager.PlayTargetAnimation("Punch",true, true);
+    }
+
+    public void HandleAirMovement()
+    {
+        Vector3 airMoveDir = _cameraObject.forward * _inputManager.verticalInput;
+        airMoveDir += _cameraObject.right * _inputManager.horizontalInput;
+        airMoveDir.Normalize();
+        airMoveDir.y = 0;
+        
+        Vector3 targetVelocity = airMoveDir * airControlSpeed;
+        targetVelocity.y = _playerRb.linearVelocity.y;
+        
+        _playerRb.linearVelocity = Vector3.Lerp(_playerRb.linearVelocity, targetVelocity, Time.deltaTime * 5f);
     }
     
 }

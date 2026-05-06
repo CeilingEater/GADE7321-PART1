@@ -164,7 +164,7 @@ MonoBehaviour:
   size: {x: 0, y: 0, z: 0}
   damage: 0
   target: {fileID: 0}
-  bulletPrefab: {fileID: 9185738272390303236, guid: 924961ead131e4243ada174a99d634ed, type: 3}
+  bulletPrefab: {fileID: 7300918220320826397, guid: b4f236a427267c14fb0e8b5cb78d1a49, type: 3}
   firePoint: {fileID: 6229485722474696130}
   fireRate: 2
 --- !u!1 &3438827611549765095
