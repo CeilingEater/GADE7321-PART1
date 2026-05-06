@@ -35,6 +35,12 @@ public class TurretEnemy : EnemyAIBase
         if (bulletPrefab != null && firePoint != null)
         {
             Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            Debug.Log($"{gameObject.name} fired a bullet!"); 
+        }
+        else
+        {
+            // This will tell us if the script running is the "empty" one
+            Debug.LogError($"{gameObject.name} is trying to shoot but has no Bullet or FirePoint!");
         }
     }
 }

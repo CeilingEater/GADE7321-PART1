@@ -74,16 +74,16 @@ public class PlayerStats : MonoBehaviour
     {
         currentLives--;
         Debug.Log("Lives remaining: " + currentLives);
+        
+        UpdateUI(); 
 
         if (currentLives <= 0)
         {
-            // Trigger your Game Over logic here
             Debug.Log("Game Over!");
             ResetToStart();
         }
         else
         {
-            // Use your existing Stack-based checkpoint system to reset position
             Respawn();
         }
     }
