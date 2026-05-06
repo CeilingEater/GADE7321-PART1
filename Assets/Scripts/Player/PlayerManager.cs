@@ -5,8 +5,10 @@ public class PlayerManager : MonoBehaviour
 {
     [Header("State Machine")]
     public PlayerBaseState currentState;
-    public GroundedState groundedState;
-    public InAirState inAirState = new InAirState();
+    public WalkingState walkingState = new WalkingState();
+    public RunningState runningState = new RunningState();
+    public IdleState idleState = new IdleState();
+    public JumpingState jumpingState = new JumpingState();
     
     InputManager _inputManager;
     CameraManager _cameraManager;
@@ -19,8 +21,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        currentState = groundedState;
-        currentState.EnterState(this, _playerMovement, _animatorManager);
+        SwitchState(idleState);
+        //currentState = idleState;
+        //currentState.EnterState(this, _playerMovement, _animatorManager);
     }
 
     private void Awake()
@@ -29,6 +32,7 @@ public class PlayerManager : MonoBehaviour
         //cameraManager = GetComponent<CameraManager>();
         _cameraManager = FindFirstObjectByType<CameraManager>();
         _playerMovement = GetComponent<PlayerMovement>();
+        _animatorManager = GetComponent<AnimatorManager>();
         _animator = GetComponent<Animator>();
     }
 
@@ -40,7 +44,7 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _playerMovement.HandleAllMovement();
+        //_playerMovement.HandleAllMovement();
         currentState.FixedUpdateState(this, _playerMovement);
     }
 
@@ -58,6 +62,11 @@ public class PlayerManager : MonoBehaviour
 
     public void SwitchState(PlayerBaseState newState)
     {
+        if (currentState != null)
+        {
+            currentState.ExitState(this);
+        }
+        
         currentState = newState;
         currentState.EnterState(this, _playerMovement, _animatorManager);
     }

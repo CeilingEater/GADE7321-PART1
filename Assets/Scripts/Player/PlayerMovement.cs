@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     
     void Start()
     {
-        HandleFallingAndLanding(); 
+        //HandleFallingAndLanding(); 
         
         _animatorManager.animator.SetBool("isInteracting", false);
     }

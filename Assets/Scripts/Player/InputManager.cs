@@ -6,6 +6,7 @@ public class InputManager : MonoBehaviour
 {
     PlayerControls _playerControls;
     PlayerMovement _playerMovement;
+    PlayerManager _playerManager;
     AnimatorManager _animatorManager;
     
     public Vector2 moveDirection;
@@ -35,6 +36,7 @@ public class InputManager : MonoBehaviour
     {
         _animatorManager = GetComponent<AnimatorManager>();
         _playerMovement = GetComponent<PlayerMovement>();
+        _playerManager = GetComponent<PlayerManager>();
     }
 
     private void OnEnable()
@@ -44,6 +46,7 @@ public class InputManager : MonoBehaviour
             _playerControls = new PlayerControls();
             
             _playerControls.PlayerMovement.Movement.performed += i => moveDirection = i.ReadValue<Vector2>();
+            _playerControls.PlayerMovement.Movement.canceled += i => moveDirection = Vector2.zero; //added
             _playerControls.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
             
             _playerControls.PlayerActions.Shift.performed += i => sprintInput = true;
@@ -77,7 +80,11 @@ public class InputManager : MonoBehaviour
         verticalInput = moveDirection.y;
         horizontalInput = moveDirection.x;
         _moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
-        _animatorManager.UpdateAnimatorValues(0,_moveAmount, _playerMovement.isSprinting);
+
+        /*if (!_playerManager.isInteracting && !_playerMovement.isJumping)
+        {
+            _animatorManager.UpdateAnimatorValues(0,_moveAmount, _playerMovement.isSprinting);
+        }*/
         
         cameraInputY = cameraInput.y;
         cameraInputX = cameraInput.x;
@@ -100,7 +107,8 @@ public class InputManager : MonoBehaviour
         if (jumpInput)
         {
             jumpInput = false;
-            _playerMovement.HandleJumping();
+            //_playerMovement.HandleJumping();
+            _playerManager.SwitchState(_playerManager.jumpingState);
         }
     }
 
@@ -119,6 +127,7 @@ public class InputManager : MonoBehaviour
         {
             punchInput = false;
             _playerMovement.HandlePunching();
+            
             
         }
     }
