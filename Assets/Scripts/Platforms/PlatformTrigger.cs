@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlatformTrigger : MonoBehaviour
+public class PlatformTrigger : MonoBehaviour //used to be on actual platforms but i made 
 {
     public GameObject[] platformsToActivate; 
     public bool deactivateOnExit = false; 
