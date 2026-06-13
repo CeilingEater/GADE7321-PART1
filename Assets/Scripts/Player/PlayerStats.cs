@@ -72,6 +72,7 @@ public class PlayerStats : MonoBehaviour
 
     public void LoseLife()
     {
+        SFXManager.Instance.PlaySFX("LoseLife");
         currentLives--;
         Debug.Log("Lives remaining: " + currentLives);
         
@@ -79,6 +80,7 @@ public class PlayerStats : MonoBehaviour
 
         if (currentLives <= 0)
         {
+            SFXManager.Instance.PlaySFX("Death");
             Debug.Log("Game Over!");
             ResetToStart();
         }

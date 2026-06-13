@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlatformTrigger : MonoBehaviour //used to be on actual platforms but i made 
+public class PlatformTrigger : MonoBehaviour //used to be on actual platforms but i made 'colliders' seperate to avoid the collision of the actual tile. i didnt bother removing the color stuff
 {
     public GameObject[] platformsToActivate; 
     public bool deactivateOnExit = false; 
