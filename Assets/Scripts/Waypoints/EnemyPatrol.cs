@@ -1,39 +1,34 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class EnemyPatrol : MonoBehaviour
 {
-    // Using your custom Linked List class
-    private LinkedListNode<Transform> _waypointList;
-    
-    private int _currPointIndex = 0;
+    private Waypoint _currentWaypoint; 
     private NavMeshAgent _agent;
+    private bool _firstPathSet = false;
 
     void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
-        _waypointList = new LinkedListNode<Transform>();
-
-        // 1. Find all objects tagged "waypoint"
-        GameObject[] wpObjects = GameObject.FindGameObjectsWithTag("waypoint");
-
-        // 2. Insert them into your custom Linked List
-        foreach (GameObject go in wpObjects)
-        {
-            _waypointList.Insert(go.transform);
-        }
-
-        // 3. Start the patrol
-        if (_waypointList.Size > 0)
-        {
-            _agent.SetDestination(_waypointList[0].position);
-        }
+        FindClosestStartingWaypoint();
     }
 
     void Update()
     {
-        // Check if we have reached the destination
-        // agent.pathPending ensures we don't skip logic while the AI is still "thinking"
+        if (_agent == null || !_agent.isOnNavMesh) return;
+        
+        if (!_firstPathSet)
+        {
+            if (_currentWaypoint != null)
+            {
+                _agent.SetDestination(_currentWaypoint.transform.position);
+            }
+            _firstPathSet = true;
+            return;
+        }
+        
         if (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance)
         {
             GoToNextWaypoint();
@@ -42,14 +37,38 @@ public class EnemyPatrol : MonoBehaviour
 
     private void GoToNextWaypoint()
     {
-        if (_waypointList.Size == 0) return;
+        if (_currentWaypoint == null || GraphNetworkManager.instance == null) return;
 
-        // Increment index and loop back using your Size property
-        _currPointIndex = (_currPointIndex + 1) % _waypointList.Size;
+    
+        List<Waypoint> pathOptions = GraphNetworkManager.instance.gameGraph.GetConnectedVertices(_currentWaypoint);
 
-        // Use your custom indexer [int index] to get the transform
-        Transform nextTarget = _waypointList[_currPointIndex];
-        
-        _agent.SetDestination(nextTarget.position);
+        if (pathOptions == null || pathOptions.Count == 0) return;
+
+        int randomIndex = Random.Range(0, pathOptions.Count);
+        Waypoint nextTargetNode = pathOptions[randomIndex];
+
+        if (nextTargetNode != null)
+        {
+            _currentWaypoint = nextTargetNode;
+            _agent.SetDestination(_currentWaypoint.transform.position);
+        }
+    }
+
+    private void FindClosestStartingWaypoint()
+    {
+        Waypoint[] allWaypoints = FindObjectsByType<Waypoint>(FindObjectsSortMode.None);
+        float closestDistance = Mathf.Infinity;
+        Waypoint closest = null;
+
+        foreach (Waypoint wp in allWaypoints)
+        {
+            float distance = Vector3.Distance(transform.position, wp.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closest = wp;
+            }
+        }
+        _currentWaypoint = closest;
     }
 }

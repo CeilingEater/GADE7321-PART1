@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
 
 [RequireComponent(typeof(NavMeshAgent))]
 public abstract class EnemyAIBase : MonoBehaviour
@@ -9,12 +9,11 @@ public abstract class EnemyAIBase : MonoBehaviour
     public float speed;
     public Vector3 size;
     public int damage;
-    public Transform target;
     
+    public Transform target;
     protected NavMeshAgent agent;
-    // Using your custom Linked List!
-    public LinkedListNode<Transform> patrolWaypoints = new LinkedListNode<Transform>();
-    protected int currentWaypointIndex = 0;
+    
+    [HideInInspector] public Waypoint currentGraphNode;
     protected bool canPatrol = false;
 
     public virtual void Initialize(Transform playerTarget)
@@ -28,28 +27,45 @@ public abstract class EnemyAIBase : MonoBehaviour
         }
     }
 
-    // This will handle the movement logic for Scrappy and Heavy
     protected void UpdatePatrol()
     {
-        if (!canPatrol || patrolWaypoints.Size == 0 || agent == null) return;
-
-        // Check if we've arrived at the current waypoint
+        if (!canPatrol || currentGraphNode == null || agent == null) return;
+        
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            currentWaypointIndex = (currentWaypointIndex + 1) % patrolWaypoints.Size;
-            agent.SetDestination(patrolWaypoints[currentWaypointIndex].position);
+            ChooseNextRandomNode();
         }
     }
-    
-    // Using OnCollisionEnter because these enemies have Rigidbody/NavMeshAgent
+
+    void ChooseNextRandomNode()
+    {
+        // FIXED: Changed currentWaypoint to currentGraphNode
+        if (currentGraphNode == null || GraphNetworkManager.instance == null) return;
+
+        // FIXED: Changed currentWaypoint to currentGraphNode
+        List<Waypoint> pathOptions = GraphNetworkManager.instance.gameGraph.GetConnectedVertices(currentGraphNode);
+
+        if (pathOptions == null || pathOptions.Count == 0) return;
+
+        int randomIndex = UnityEngine.Random.Range(0, pathOptions.Count);
+        Waypoint nextNode = pathOptions[randomIndex];
+
+        if (nextNode != null)
+        {
+            // FIXED: Changed currentWaypoint to currentGraphNode
+            currentGraphNode = nextNode;
+
+            // FIXED: Changed currentWaypoint to currentGraphNode
+            agent.SetDestination(currentGraphNode.transform.position);
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            // Access your Singleton to trigger life loss
             PlayerStats.instance.LoseLife();
-        
-            // Optional: If you want Scrappy to vanish after hitting the player
+     
             if (this is ScrappyEnemy) 
             {
                 Destroy(gameObject);
