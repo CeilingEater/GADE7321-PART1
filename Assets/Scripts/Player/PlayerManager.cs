@@ -69,12 +69,26 @@ public class PlayerManager : MonoBehaviour
 
     public void SwitchState(PlayerBaseState newState)
     {
-        /*if (currentState != null)
+        /*currentState = newState;
+        
+        currentState.EnterState(this, _playerMovement, _animatorManager);
+        if (currentState == jumpingState)
         {
-            currentState.ExitState(this);
+            SFXManager.Instance.PlaySFX("Jumping");
         }*/
         
+        if (currentState != null)
+        {
+            currentState.ExitState(this);
+        }
+        
         currentState = newState;
+        
         currentState.EnterState(this, _playerMovement, _animatorManager);
+        
+        if (currentState == jumpingState)
+        {
+            SFXManager.Instance.PlaySFX("Jumping");
+        }
     }
 }
