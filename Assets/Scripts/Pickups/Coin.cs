@@ -9,5 +9,6 @@ public class Coin : Collectable
         PlayerStats.instance.score += scoreValue;
         PlayerStats.instance.UpdateUI();
         Debug.Log("Score: " + PlayerStats.instance.score);
+        SFXManager.Instance.PlaySFX("GainLife");
     }
 }

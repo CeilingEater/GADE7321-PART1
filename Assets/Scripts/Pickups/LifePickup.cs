@@ -8,5 +8,7 @@ public class LifePickup : Collectable
         {
             PlayerStats.instance.GainLife();
         }
+        
+        SFXManager.Instance.PlaySFX("GainLife");
     }
 }
