@@ -88,7 +88,7 @@ public class PlayerManager : MonoBehaviour
         
         if (currentState == jumpingState)
         {
-            SFXManager.Instance.PlaySFX("Jumping");
+            SFXManager.Instance.PlaySFX("Jump");
         }
     }
 }

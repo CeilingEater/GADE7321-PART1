@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WinTrigger : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class WinTrigger : MonoBehaviour
         {
             Debug.Log("Level Won!");
             PlayerStats.instance.WinLevel();
-            
+            SceneManager.LoadScene("MainMenu");
             this.enabled = false;
         }
     }
